@@ -100,7 +100,7 @@ public class SubMenu {
 	                System.out.println();
 	        	}  
 	        } while (choice != 4);
-	    	
+
 	    }         
 	         
 }
