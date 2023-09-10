@@ -1,11 +1,13 @@
 package locked.me.com.submenu;
 
-import java.util.LinkedList;
+import java.io.File;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class SubMenu {
 
-	public static void SubMenu(LinkedList<String> fileList) {
+	public static void SubMenu() {
+		File file = new File("D:\\LockedMe.com App Files");
 		Scanner scanner = new Scanner(System.in);
 		int choice;
     
@@ -28,33 +30,43 @@ public class SubMenu {
 	      
 	
 	        switch (choice) {
-	            case 1:
-	            	 scanner.nextLine();
-	                 System.out.print("Please enter the file name you would like to add: ");
-	                 System.out.println();
-	                 String fileToAdd = scanner.nextLine();
-	                 	                  
-	                 if (fileList.contains(fileToAdd)) {
-	                	 System.out.println("The file " +fileToAdd+ " already exists!");
+	        case 1:
+           	 scanner.nextLine();
+                System.out.print("Please enter the file name you would like to add: ");
+                System.out.println();
+                String fileNameToAdd = scanner.next();
+                String filePathToAdd = file.getPath()+"\\"+fileNameToAdd;
+                File fileToAdd = new File(filePathToAdd);
+                	                  
+                if(fileToAdd.exists()) {
+               	 System.out.println("The file " +fileNameToAdd+ " already exists!");
+               	 System.out.println();
+               
+                } else { 
+               	 try {
+               		 fileToAdd.createNewFile();
+               		 System.out.println("The file " +fileNameToAdd+ " has been added!");
 	                	 System.out.println();
-	                
-	                 } else { 
-	                	 fileList.add(fileToAdd);
-	                	 System.out.println("The file " +fileToAdd+ " has been added!");
-	                	 System.out.println();
-	                 }
-	                 break;
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+               	
+                }
+                break;
 	            case 2:
 	            	  scanner.nextLine();
 	                  System.out.print("Please enter the file name you would like to delete: ");
 	                  System.out.println();
-	                  String fileToDelete = scanner.nextLine();
+	                  String fileNameToDel = scanner.next();
+		              String filePathToDel = file.getPath()+"\\"+fileNameToDel;
+	                  File fileToDelete = new File(filePathToDel);
 	                  	                     
-	                  if (fileList.remove(fileToDelete)) {
-	                      System.out.println("The file " +fileToDelete+ " has been deleted!");
+	                  if (fileToDelete.exists()) {
+	                	  fileToDelete.delete();
+	                      System.out.println("The file " +fileNameToDel+ " has been deleted!");
 	                      System.out.println();
 	                  } else {
-	                      System.out.println("File " + fileToDelete + " not found!");
+	                      System.out.println("File " + fileNameToDel + " not found!");
 	                      System.out.println();
 	                  }
 	                  break;
@@ -63,11 +75,15 @@ public class SubMenu {
 	            	scanner.nextLine();
 	            	System.out.println("Please enter the file you would like to search for: ");
 	            	System.out.println();
-	            	String fileToSearch = scanner.next();
-	            	if (fileList.isEmpty()) {
-	            		System.out.println("There no files in the list! You could Add some if you please!");
+	            	String fileNameToSearch = scanner.next();
+	            	String filePathToSearch = file.getPath()+"\\"+fileNameToSearch;
+	            	File fileToSearch = new File(filePathToSearch);
+	            	File [] files = file.listFiles();
+	            	
+	            	if (files.length == 0) {
+	            		System.out.println("There are no files in the folder! You could Add some if you please!");
 	            		System.out.println();
-	            	} else if  (fileList.contains(fileToSearch)) {
+	            	} else if (fileToSearch.exists()) {
 	            		System.out.println("File "+fileToSearch+ " found!");
 	            		System.out.println();
 	            	} else {
